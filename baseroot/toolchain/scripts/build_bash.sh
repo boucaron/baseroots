@@ -36,8 +36,10 @@ echo "[*] Building Bash for host: $HOST"
 # Configure for static build
 ./configure --prefix=/usr \
             --host="$HOST" \
+	    --without-bash-malloc \
             --enable-static-link \
             --disable-nls \
+	    --without-libintl-prefix \
             CC="${CROSS_PREFIX}gcc" \
             CFLAGS="-Os -static"
 
@@ -47,9 +49,6 @@ make install DESTDIR="$INSTALL_DIR"
 
 #Strip
 strip "$INSTALL_DIR/usr/bin/bash"
-
-# Ensure /bin/sh points to bash
-ln -sf "$INSTALL_DIR/usr/bin/bash" "$INSTALL_DIR/bin/sh"
 
 
 echo "[+] Bash built and installed to $INSTALL_DIR/bin"
