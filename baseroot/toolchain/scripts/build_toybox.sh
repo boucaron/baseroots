@@ -35,7 +35,8 @@ export CFLAGS="-Os -static"
 export PREFIX="$INSTALL_DIR"
 
 # Build Toybox
-make defconfig
+# make defconfig
+make menuconfig
 make -j8
 
 # Install binary
