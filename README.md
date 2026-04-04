@@ -31,3 +31,7 @@ hello: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, n
 ./hello 
 Hello BaseRoots
 
+Usage to build toybox:
+./baseroot/toolchain/scripts/build_toybox.sh x86_64-linux-musl-
+
+Check: ls baseroot/toolchain/initramfs/base/bin/
