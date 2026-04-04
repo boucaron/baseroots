@@ -8,7 +8,10 @@ if [ -z "$TARGET_NAME" ]; then
     exit 1
 fi
 
-BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+# Determine absolute BASE_DIR robustly
+SCRIPT_PATH="$(realpath "$0")"
+BASE_DIR="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)"
+
 SRC_DIR="$BASE_DIR/src/musl-cross-make"
 TARGET_DIR="$BASE_DIR/targets/$TARGET_NAME"
 BUILD_DIR="$BASE_DIR/build/$TARGET_NAME"
@@ -26,14 +29,17 @@ fi
 mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR"
 
-# Copy source (clean build per target)
-cp -r "$SRC_DIR"/* .
+# Copy source, including hidden files
+cp -r "$SRC_DIR"/. .
 
 # Inject config
 cp "$TARGET_DIR/config.mak" config.mak
 
 echo "[*] Building toolchain: $TARGET_NAME"
-make
+
+JOBS_NUM=8
+echo "[*] Building toolchain: $TARGET_NAME with $JOBS_NUM jobs"
+make -j"$JOBS_NUM"
 make install
 
 echo "[+] Done: $TARGET_NAME"
