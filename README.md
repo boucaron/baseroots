@@ -35,3 +35,6 @@ Usage to build toybox:
 ./baseroot/toolchain/scripts/build_toybox.sh x86_64-linux-musl-
 
 Check: ls baseroot/toolchain/initramfs/base/bin/
+
+
+Usage to build bash:

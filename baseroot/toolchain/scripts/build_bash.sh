@@ -53,3 +53,4 @@ ln -sf "$INSTALL_DIR/usr/bin/bash" "$INSTALL_DIR/bin/sh"
 
 
 echo "[+] Bash built and installed to $INSTALL_DIR/bin"
+
