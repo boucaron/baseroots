@@ -36,5 +36,25 @@ Usage to build toybox:
 
 Check: ls baseroot/toolchain/initramfs/base/bin/
 
+Build initramfs:
+cd initramfs/base
+find . | cpio -H newc -o > ../base.cpio
+cd ../..
+
+
 
 Usage to build bash:
+./baseroot/toolchain/scripts/build_bash.sh  x86_64-linux-musl-
+
+Check: ls baseroot/toolchain/initramfs/base/usr/bin/bash
+
+Build kernel:
+cd kernel/src/mykernel-src
+make mrproper
+make defconfig
+# optionally edit config
+make -j8 bzImage
+
+
+Launch qemu to test:
+qemu-system-x86_64 -kernel ./arch/x86_64/boot/bzImage  -initrd ../../../toolchain/initramfs/base.cpio   -nographic -append "console=ttyS0 rdinit=/sbin/init raid=noautodetect"
