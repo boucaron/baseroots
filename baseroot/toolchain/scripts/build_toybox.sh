@@ -1,8 +1,17 @@
 #!/bin/sh
 set -e
 
-# Import common variables/functions
-source ./common.sh
+# Resolve script directory (portable, no realpath dependency)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Import common variables/functions from same directory as this script
+COMMON_SH="$SCRIPT_DIR/common.sh"
+if [ ! -f "$COMMON_SH" ]; then
+    echo "[!] Missing common.sh at $COMMON_SH"
+    exit 1
+fi
+
+. "$COMMON_SH"
 
 # Usage: ./build_toybox.sh <cross-compiler-prefix>
 # Example: ./build_toybox.sh x86_64-linux-musl-
@@ -39,7 +48,7 @@ export PREFIX="$INSTALL_DIR"
 
 # Build Toybox
 # make defconfig
-make menuconfig
+# make menuconfig
 make -j"$JOBS_NUM"
 
 # Install binary

@@ -10,3 +10,5 @@ COMMON_CONFIG += --enable-static
 
 # Avoid multilib mess
 GCC_CONFIG += --disable-multilib
+
+JOBS_NUM=8

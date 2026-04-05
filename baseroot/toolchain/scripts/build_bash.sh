@@ -1,8 +1,18 @@
 #!/bin/sh
 set -e
 
-# Import common variables/functions
-source ./common.sh
+
+# Resolve script directory (portable, no realpath dependency)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Import common variables/functions from same directory as this script
+COMMON_SH="$SCRIPT_DIR/common.sh"
+if [ ! -f "$COMMON_SH" ]; then
+    echo "[!] Missing common.sh at $COMMON_SH"
+    exit 1
+fi
+
+. "$COMMON_SH"
 
 # Usage: ./build_bash.sh <cross-compiler-prefix>
 CROSS_PREFIX="$1"
