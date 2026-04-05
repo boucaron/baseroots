@@ -50,7 +50,7 @@ fi
   --enable-libblkid \
   --enable-libuuid \
   --enable-libmount \
-  --enable-static-programs=fdisk,sfdisk,losetup,mount,umount \
+  --enable-static-programs=fdisk,losetup,mount,umount \
   --disable-nls \
   --without-python \
   --without-systemd \
@@ -68,7 +68,9 @@ make -j"$JOBS_NUM"
 # DON'T Install everything...
 # make DESTDIR="$INSTALL_DIR" install
 cp -f fdisk.static $INSTALL_DIR/sbin/fdisk
-cp -f sfdisk.static $INSTALL_DIR/sbin/sfdisk
+# If you uncomment don't forget to put them in --enable-static-programs
+#cp -f sfdisk.static $INSTALL_DIR/sbin/sfdisk
+#cp -f cfdisk.static $INSTALL_DIR/sbin/cfdisk
 cp -f umount.static $INSTALL_DIR/bin/umount
 cp -f losetup.static $INSTALL_DIR/bin/losetup
 cp -f mount.static $INSTALL_DIR/bin/mount
