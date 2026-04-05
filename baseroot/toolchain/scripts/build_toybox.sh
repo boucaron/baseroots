@@ -52,6 +52,7 @@ export PREFIX="$INSTALL_DIR"
 make -j"$JOBS_NUM"
 
 # Install binary
+rm -f $INSTALL_DIR/toybox
 cp toybox "$INSTALL_DIR"
 
 # Dynamically generate symlinks based on the binary itself
