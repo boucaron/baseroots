@@ -65,7 +65,7 @@ fi
 
 make -j"$JOBS_NUM"
 
-# Install everything (for now, since you want to measure)
+# DON'T Install everything...
 # make DESTDIR="$INSTALL_DIR" install
 cp -f fdisk.static $INSTALL_DIR/sbin/fdisk
 cp -f sfdisk.static $INSTALL_DIR/sbin/sfdisk
