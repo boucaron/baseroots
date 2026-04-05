@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Import common variables/functions
+source ./common.sh
+
 TARGET_NAME="$1"
 
 if [ -z "$TARGET_NAME" ]; then
@@ -37,7 +40,7 @@ cp "$TARGET_DIR/config.mak" config.mak
 
 echo "[*] Building toolchain: $TARGET_NAME"
 
-JOBS_NUM=8
+
 echo "[*] Building toolchain: $TARGET_NAME with $JOBS_NUM jobs"
 make -j"$JOBS_NUM"
 make install

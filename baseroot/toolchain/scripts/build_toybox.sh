@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Import common variables/functions
+source ./common.sh
+
 # Usage: ./build_toybox.sh <cross-compiler-prefix>
 # Example: ./build_toybox.sh x86_64-linux-musl-
 
@@ -37,7 +40,7 @@ export PREFIX="$INSTALL_DIR"
 # Build Toybox
 # make defconfig
 make menuconfig
-make -j8
+make -j"$JOBS_NUM"
 
 # Install binary
 cp toybox "$INSTALL_DIR"

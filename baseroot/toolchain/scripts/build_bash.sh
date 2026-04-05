@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Import common variables/functions
+source ./common.sh
+
 # Usage: ./build_bash.sh <cross-compiler-prefix>
 CROSS_PREFIX="$1"
 
@@ -44,7 +47,7 @@ echo "[*] Building Bash for host: $HOST"
             CFLAGS="-Os -static"
 
 # Build and install
-make -j8
+make -j"$JOBS_NUM"
 make install DESTDIR="$INSTALL_DIR"
 
 #Strip
