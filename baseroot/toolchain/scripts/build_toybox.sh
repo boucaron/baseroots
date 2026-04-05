@@ -31,14 +31,24 @@ INSTALL_DIR="$BASE_DIR/initramfs/base/bin"
 # Ensure directories
 mkdir -p "$BUILD_DIR" "$INSTALL_DIR"
 
+cd "$SRC_DIR"
+
 # Clone Toybox if missing
 if [ ! -d "$SRC_DIR" ]; then
     git clone https://github.com/landley/toybox.git "$SRC_DIR"
 fi
 
-cd "$SRC_DIR"
+TOYBOX_CONFIG="$SCRIPT_DIR/toybox_config"
+if [ ! -f "$TOYBOX_CONFIG" ]; then
+    echo "[!] Missing toybox_config at $TOYBOX_CONFIG"
+    exit 1
+fi
+
+cp -f $TOYBOX_CONFIG $SRC_DIR/.config
+echo "Custom toybox_config copied"
 
 # Clean previous build
+echo `pwd`
 make clean || true
 
 # Export cross-compiler
@@ -47,7 +57,7 @@ export CFLAGS="-Os -static"
 export PREFIX="$INSTALL_DIR"
 
 # Build Toybox
-# make defconfig
+make oldconfig
 # make menuconfig
 make -j"$JOBS_NUM"
 
