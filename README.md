@@ -3,7 +3,7 @@
 This is a small set of scripts to build a minimalist Linux base system.
 
 The idea is simple:
-you build a kernel, a small initrd, and just enough tools to boot into a shell and do whatever you want.
+you build a kernel, an initrd, and just enough tools to boot into a shell and do whatever you want.
 
 You can use it as a kind of shim:
 chroot into other distros, test things, experiment, break stuff.
@@ -49,14 +49,11 @@ An example recipe is:
 
 `build_x86_64-musl.sh`
 
-It builds:
+It builds a musl-based cross toolchain, then compiles toybox and bash,
+and finally creates a minimal initrd.
 
-* a cross-compiler (musl-based)
-* toybox
-* a bash shell
-* a minimal initrd
-
-From there, you just need to provide a kernel and boot it in qemu to test.
+At the end, you have everything except a kernel.
+Add one, boot it in qemu, and you get a shell.
 
 Most of the shell scripts are in:
 
@@ -119,4 +116,4 @@ copy it, modify it, redistribute it, use it in other projects, with or without a
 
 Basically: do whatever you want.
 
----
+
