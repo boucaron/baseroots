@@ -35,6 +35,7 @@ mkdir -p "$BUILD_DIR" "$INSTALL_DIR"
 CC="${CROSS_PREFIX}cc"
 AR="${CROSS_PREFIX}ar"
 RANLIB="${CROSS_PREFIX}ranlib"
+STRIP="${CROSS_PREFIX}strip"
 CFLAGS="-static -O2"
 LDFLAGS="-static"
 
@@ -53,12 +54,20 @@ if [ ! -f "configure" ]; then
     autoreconf -fi
 fi
 
+# XFS_SUPER_MAGIC not found ?
+# if so add that in linux/magic.h if not in the kernel include of
+#  your cross compiler #define XFS_SUPER_MAGIC 0x58465342
+# Better reinstall the kernel header from a fresh kernel well configured
+# Example:  make ARCH=x86_64 CROSS_COMPILE=x86_64-linux-musl- headers_install INSTALL_HDR_PATH=~/baseroots/baseroot/toolchain/output/x86_64-musl/x86_64-linux-musl
+#
 
 ./configure \
     --host="${CROSS_PREFIX%-}" \
     --prefix=/usr \
-    --disable-nls \
-    --disable-debug \
+    --enable-scrub=no \
+    --enable-shared=no \
+    --enable-static=yes \
+    --enable-lto=no \
     CC="$CC" \
     AR="$AR" \
     RANLIB="$RANLIB" \
@@ -67,6 +76,14 @@ fi
 
 # Build main binaries (mkfs.xfs, xfs_repair, xfs_info, etc.)
 make -j"$JOBS_NUM"
+
+# I hate libtool...
+cd mkfs
+rm -f mkfs.xfs
+STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections proto.o xfs_mkfs.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o mkfs.xfs
+$STRIP mkfs.xfs
+cd -
 
 # Install binaries into temporary dir
 # make DESTDIR="$INSTALL_DIR" install
