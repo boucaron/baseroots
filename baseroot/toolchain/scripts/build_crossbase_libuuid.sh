@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-# Dependency needed for xfsprogs to be installed in your cross compiler base
+# Dependencies needed for xfsprogs to be installed in your cross compiler base
+# libuuid & libblkid
 
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -97,5 +98,14 @@ mkdir -p "$INSTALL_INCLUDE"
 cp -f .libs/libuuid.a "$INSTALL_LIB/"
 cp -f libuuid/src/uuid.h "$INSTALL_INCLUDE/"
 
+INSTALL_INCLUDE="$CROSS_DIR/$INSTALL_CROSS_PREFIX/include/blkid"
+
+# Ensure blkid subdirectory exists
+mkdir -p "$INSTALL_INCLUDE"
+
+cp -f .libs/libblkid.a "$INSTALL_LIB/"
+cp -f libblkid/src/blkid.h "$INSTALL_INCLUDE/"
+
 echo "[+] libuuid headers and library installed under $CROSS_DIR/$INSTALL_CROSS_PREFIX"
+echo "[+] libblkid headers and library installed under $CROSS_DIR/$INSTALL_CROSS_PREFIX"
 cd -
