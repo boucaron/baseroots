@@ -27,7 +27,7 @@ This project is just a small experiment I did during the Easter weekend 2026.
 
 A tiny egg.
 
-![BaseRoots Logo](assets/logo.png)
+![BaseRoots Logo](assets/image.png)
 
 ---
 
