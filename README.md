@@ -1,3 +1,4 @@
+![BaseRoots Logo](assets/image_small.jpg)
 # BaseRoots
 
 This is a small set of scripts to build a minimalist Linux base system.
@@ -26,8 +27,6 @@ so it should actually be easier to experiment like this today.
 This project is just a small experiment I did during the Easter weekend 2026.
 
 A tiny egg.
-
-![BaseRoots Logo](assets/image_small.jpg)
 
 ---
 
