@@ -65,6 +65,8 @@ There are also a few additional ones for:
 * e2fsprogs
 * util-linux (fdisk, etc.)
 
+Adding those last tools already makes it a small, usable rescue system.
+
 ---
 
 ## Notes
