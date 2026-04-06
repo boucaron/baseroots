@@ -24,7 +24,6 @@ if [ -z "$CROSS_PREFIX" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SRC_INI_DIR="$BASE_DIR/src/libinih"
 SRC_DIR="$BASE_DIR/src/xfsprogs"
 BUILD_DIR="$BASE_DIR/build/xfsprogs"
 INSTALL_DIR="$BASE_DIR/initramfs/base/"
@@ -39,31 +38,6 @@ RANLIB="${CROSS_PREFIX}ranlib"
 CFLAGS="-static -O2"
 LDFLAGS="-static"
 
-# Add dep
-# Clone ini lib 
-if [ ! -d "$SRC_INI_DIR" ]; then
-    git clone https://github.com/benhoyt/inih.git "$SRC_INI_DIR"
-    # Manually compile and generate the archive and include
-    
-fi
-
-cd "$SRC_INI_DIR"
-
-# Compile ini.c into a static library
-mkdir -p build && cd build
-$CC $CFLAGS -c ../ini.c -o ini.o
-$AR rcs libinih.a ini.o
-
-# Install headers and static library directly into cross-prefix
-mkdir -p "$CROSS_PREFIX/include" "$CROSS_PREFIX/lib"
-cp -f ../ini.h "$CROSS_PREFIX/include/"
-cp -f libinih.a "$CROSS_PREFIX/lib/"
-
-echo "[+] libinih built and installed directly under $CROSS_PREFIX"
-
-cd -
-
-
 # Clone xfsprogs if missing
 if [ ! -d "$SRC_DIR" ]; then
    git clone https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git "$SRC_DIR"
@@ -74,27 +48,18 @@ cd "$SRC_DIR"
 # Clean previous build artifacts
 make distclean || true
 
-
-
 if [ ! -f "configure" ]; then
     echo "[*] Running autoreconf to generate configure..."
     autoreconf -fi
 fi
 
-# Absolute paths for libinih
-ABS_INI_INCLUDE="$(cd "$BASE_DIR/src/libinih/build/$CROSS_PREFIX/include" && pwd)"
-ABS_INI_LIB="$(cd "$BASE_DIR/src/libinih/build/$CROSS_PREFIX/lib" && pwd)"
-echo "ABS_INI_INCLUDE = $ABS_INI_INCLUDE"
-echo "ABS_INI_LIB = $ABS_INI_LIB"
 
-CPPFLAGS="-I$ABS_INI_INCLUDE"
-LDFLAGS="-L$ABS_INI_LIB -static"
 ./configure \
     --host="${CROSS_PREFIX%-}" \
     --prefix=/usr \
     --disable-nls \
     --disable-debug \
-    CC="$CC $CPPFLAGS" \
+    CC="$CC" \
     AR="$AR" \
     RANLIB="$RANLIB" \
     CFLAGS="$CFLAGS" \
