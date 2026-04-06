@@ -67,6 +67,22 @@ There are also a few additional ones for:
 
 ---
 
+## Notes
+
+This is not like building a full system with Linux From Scratch.
+
+Everything here is cross-compiled and kept minimal.
+You build just enough to boot and get a shell, then experiment from there.
+
+Some parts are not fully documented yet, especially around static linking.
+Building everything statically is not always straightforward.
+Some packages may need tweaks, patches, or specific flags.
+
+For now, the scripts give enough examples to figure it out.
+If something fails, it’s usually part of the experiment.
+
+---
+
 ## Current state
 
 For now:
