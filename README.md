@@ -43,6 +43,33 @@ From there, you do what you want.
 
 ---
 
+## Example
+
+An example recipe is:
+
+`build_x86_64-musl.sh`
+
+It builds:
+
+* a cross-compiler (musl-based)
+* toybox
+* a bash shell
+* a minimal initrd
+
+From there, you just need to provide a kernel and boot it in qemu to test.
+
+Most of the shell scripts are in:
+
+`baseroot/toolchain/scripts/`
+
+There are also a few additional ones for:
+
+* dosfstools
+* e2fsprogs
+* util-linux (fdisk, etc.)
+
+---
+
 ## Current state
 
 For now:
@@ -80,5 +107,16 @@ I want to try different combinations:
 different libc, different compilers, different userlands.
 
 Also cross-compiling for random hardware and testing in qemu.
+
+---
+
+## License
+
+This project is licensed under the 0BSD license.
+
+You can use it as you like:
+copy it, modify it, redistribute it, use it in other projects, with or without attribution.
+
+Basically: do whatever you want.
 
 ---
