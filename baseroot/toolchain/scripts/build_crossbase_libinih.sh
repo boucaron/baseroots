@@ -17,9 +17,6 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SRC_DIR="$SCRIPT_DIR/src/libinih"
 
-# Ensure cross prefix include/lib directories exist
-mkdir -p "$CROSS_PREFIX/include" "$CROSS_PREFIX/lib"
-
 # Clone libinih if missing
 if [ ! -d "$SRC_DIR" ]; then
     echo "[*] Cloning libinih..."
@@ -49,11 +46,14 @@ fi
 
 CROSS_DIR="$(cd "$(dirname "$CROSS_CC_ABS")/.." && pwd)"  # parent of bin/ directory
 
-# Install headers and static library under the cross compiler env
-mkdir -p "$CROSS_DIR/include" "$CROSS_DIR/lib"
-cp -f ../ini.h "$CROSS_DIR/include/"
-cp -f libinih.a "$CROSS_DIR/lib/"
+# Remove trailing dash from CROSS_PREFIX for actual path
+INSTALL_CROSS_PREFIX="${CROSS_PREFIX%-}"
 
-echo "[+] libinih built and installed under $CROSS_DIR"
+# CROSS_DIR points to the root of the cross compiler environment
+# Just copy headers and library; directories are assumed to exist
+cp -f ../ini.h "$CROSS_DIR/$INSTALL_CROSS_PREFIX/include/"
+cp -f libinih.a "$CROSS_DIR/$INSTALL_CROSS_PREFIX/lib/"
+
+echo "[+] libinih built and installed under $CROSS_DIR/$INSTALL_CROSS_PREFIX"
 
 cd -
