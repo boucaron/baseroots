@@ -85,6 +85,32 @@ $CC -static -static-libgcc -Wl,--gc-sections proto.o xfs_mkfs.o $STATIC_LIBS -lr
 $STRIP mkfs.xfs
 cd -
 
+cd growfs
+STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections xfs_growfs.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_growfs
+$STRIP xfs_growfs
+cd -
+
+cd fsr
+STATIC_LIBS="../libhandle/.libs/libhandle.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections xfs_fsr.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_fsr
+$STRIP xfs_fsr
+cd -
+
+cd copy
+STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a ../libxlog/.libs/libxlog.a"
+$CC -static -static-libgcc -Wl,--gc-sections xfs_copy.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_copy
+cd -
+
+
+cd spaceman
+STATIC_LIBS="../libhandle/.libs/libhandle.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections file.o health.o info.o init.o prealloc.o trim.o freesp.o $STATIC_LIBS -o xfs_spaceman
+cd -
+
+
+
+
 # Install binaries into temporary dir
 # make DESTDIR="$INSTALL_DIR" install
 
