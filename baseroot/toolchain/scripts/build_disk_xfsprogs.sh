@@ -128,8 +128,23 @@ $CC -static -static-libgcc -Wl,--gc-sections aginfo.o attr.o bmap.o bulkstat.o c
 $STRIP xfs_io
 cd -
 
+cd repair
+STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxlog/.libs/libxlog.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections agheader.o agbtree.o attr_repair.o avl.o bulkload.o bmap.o bmap_repair.o btree.o da_util.o dino_chunks.o dinode.o dir2.o globals.o incore_bmc.o incore.o incore_ext.o incore_ino.o init.o phase1.o phase2.o phase3.o phase4.o phase5.o phase6.o phase7.o pptr.o prefetch.o progress.o quotacheck.o rcbag_btree.o rcbag.o rmap.o rt.o rtrefcount_repair.o rtrmap_repair.o sb.o scan.o slab.o strblobs.o threads.o versions.o zoned.o xfs_repair.o  $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_repair
+$STRIP xfs_repair
+cd -
 
+cd db
+STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxlog/.libs/libxlog.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections addr.o agf.o agfl.o agi.o attr.o attrset.o attrshort.o bit.o block.o bmap.o bmroot.o btblock.o check.o command.o crc.o debug.o dir2.o dir2sf.o dquot.o echo.o faddr.o field.o flist.o fprint.o frag.o freesp.o fsmap.o fuzz.o hash.o help.o init.o inode.o input.o io.o logformat.o malloc.o metadump.o namei.o obfuscate.o output.o print.o quit.o rtgroup.o sb.o sig.o strvec.o symlink.o text.o type.o write.o bmap_inflate.o btdump.o btheight.o convert.o info.o iunlink.o rdump.o timelimit.o  $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_db
+$STRIP xfs_db
+cd -
 
+cd mdrestore
+STATIC_LIBS="../libxfs/.libs/libxfs.a ../libfrog/.libs/libfrog.a"
+$CC -static -static-libgcc -Wl,--gc-sections xfs_mdrestore.o  $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_mdrestore
+$STRIP xfs_mdrestore
+cd -
 
 # Install binaries into temporary dir
 # make DESTDIR="$INSTALL_DIR" install
