@@ -80,4 +80,4 @@ cp -f zconf.h "$INSTALL_INCLUDE"
 cp -f libz.a "$INSTALL_LIB"
 
 
-echo "[+] liburcu installed (headers + static libs)"
+echo "[+] zlib installed (headers + static libs)"
