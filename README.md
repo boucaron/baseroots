@@ -65,6 +65,7 @@ There are also a few additional ones for:
 * dosfstools
 * e2fsprogs
 * util-linux (fdisk, etc.)
+* xfsprogs
 
 Adding those last tools already makes it a small, usable rescue system.
 
