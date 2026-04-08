@@ -147,7 +147,19 @@ $STRIP xfs_mdrestore
 cd -
 
 # Install binaries into temporary dir
-# make DESTDIR="$INSTALL_DIR" install
+BIN_DIR="$INSTALL_DIR/bin"
+cp -f "$BASE_DIR/src/xfsprogs/mkfs/mkfs.xfs"           "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/growfs/xfs_growfs"      "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/fsr/xfs_fsr"            "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/copy/xfs_copy"          "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/spaceman/xfs_spaceman"  "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/quota/xfs_quota"        "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/logprint/xfs_logprint"  "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/io/xfs_io"              "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/repair/xfs_repair"      "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/db/xfs_db"              "$BIN_DIR/"
+cp -f "$BASE_DIR/src/xfsprogs/mdrestore/xfs_mdrestore" "$BIN_DIR/"
+chmod +x "$BIN_DIR/"*
 
 echo "[+] Disk/xfsprogs built and installed to $INSTALL_DIR."
 
