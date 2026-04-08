@@ -76,6 +76,7 @@ INSTALL_LIB="$CROSS_DIR/$INSTALL_CROSS_PREFIX/lib"
 echo "[*] Installing zlib into $CROSS_DIR/$INSTALL_CROSS_PREFIX"
 
 cp -f zlib.h "$INSTALL_INCLUDE"
+cp -f zconf.h "$INSTALL_INCLUDE"
 cp -f libz.a "$INSTALL_LIB"
 
 
