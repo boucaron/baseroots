@@ -73,6 +73,9 @@ make -j"$JOBS_NUM"
 # Install binaries into temporary dir
 make DESTDIR="$INSTALL_DIR" install
 
+# Manual cleanup
+# TODO: Remove include, share, libexec, lib
+
 
 
 echo "[+] Disk/e2fsprogs built and installed to $INSTALL_DIR."
