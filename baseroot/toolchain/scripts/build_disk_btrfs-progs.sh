@@ -49,8 +49,24 @@ fi
 
 cd "$SRC_DIR"
 
+
+# Determine absolute path to cross-compiler directory
+CROSS_CC_ABS="$(which "${CROSS_PREFIX}cc")"
+[ -z "$CROSS_CC_ABS" ] && {
+    echo "[!] Cannot find ${CROSS_PREFIX}cc in PATH"
+    exit 1
+}
+
+CROSS_DIR="$(cd "$(dirname "$CROSS_CC_ABS")/.." && pwd)"
+
+
+INSTALL_CROSS_PREFIX="${CROSS_PREFIX%-}"
+
+INSTALL_INCLUDE="$CROSS_DIR/$INSTALL_CROSS_PREFIX/include"
+INSTALL_LIB="$CROSS_DIR/$INSTALL_CROSS_PREFIX/lib"
+
 # Clean previous build artifacts
-make distclean || true
+make clean || true
 
 if [ ! -f "configure" ]; then
     echo "[*] Running autoreconf to generate configure..."
@@ -58,14 +74,15 @@ if [ ! -f "configure" ]; then
 fi
 
 
-EXT2FS_LIBS="-static -L$SRC_DIR\ext2fs\lib"
+EXT2FS_LIBS="-static -L$SRC_DIR\ext2fs\lib -lext2fs -lcom_err -lss -lz"
 EXT2FS_CFLAGS="$CFLAGS"
+BLKID_LIBS="-L$INSTALL_LIB -lblkid -luuid -lz"
+BLKID_CFLAGS="-I$INSTALL_INCLUDE"
 ./configure \
     --host="${CROSS_PREFIX%-}" \
     --prefix=/usr \
     --enable-shared=no \
     --enable-static=yes \
-    --enable-lto=no \
     --disable-backtrace \
     --disable-documentation \
     --disable-lzo \
@@ -77,10 +94,12 @@ EXT2FS_CFLAGS="$CFLAGS"
     LDFLAGS="$LDFLAGS" \
     EXT2FS_LIBS="$EXT2FS_LIBS" \
     EXT2FS_CFLAGS="$EXT2FS_CFLAGS" \
+    BLKID_LIBS="$BLKID_LIBS" \
+    BLKID_CFLAGS="$BLKID_CFLAGS"
     
 
 # Build main binaries (mkfs.xfs, xfs_repair, xfs_info, etc.)
-make -j"$JOBS_NUM"
+make V=1 -j"$JOBS_NUM"
 
 
 echo "[+] Disk/btrfs-progs built and installed to $INSTALL_DIR."
