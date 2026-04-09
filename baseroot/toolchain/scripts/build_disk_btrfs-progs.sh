@@ -102,5 +102,32 @@ BLKID_CFLAGS="-I$INSTALL_INCLUDE"
 make V=1 -j"$JOBS_NUM"
 
 
+# Install binaries
+
+$STRIP  mkfs.btrfs \
+   btrfs-map-logical \
+   btrfs-image \
+   btrfs-find-root \
+   btrfstune \
+   btrfs-select-super \
+   btrfs-convert \
+   btrfs-corrupt-block \
+   btrfs
+
+cp -f mkfs.btrfs \
+   btrfs-map-logical \
+   btrfs-image \
+   btrfs-find-root \
+   btrfstune \
+   btrfs-select-super \
+   btrfs-convert \
+   btrfs-corrupt-block \
+   btrfs \
+   "$INSTALL_DIR"/usr/bin
+
+cd  "$INSTALL_DIR"/usr/bin
+ln -s btrfs btrfsck
+cd -
+
 echo "[+] Disk/btrfs-progs built and installed to $INSTALL_DIR."
 
