@@ -52,6 +52,7 @@ fi
   --enable-libmount \
   --enable-static-programs=fdisk,losetup,mount,umount \
   --disable-nls \
+  --disable-nsenter \
   --without-python \
   --without-systemd \
   --without-udev \
@@ -63,7 +64,7 @@ fi
   CFLAGS="-O2" \
   LDFLAGS="-static -Wl,--gc-sections"
 
-make -j"$JOBS_NUM"
+make V=1 -j"$JOBS_NUM"
 
 # DON'T Install everything...
 # make DESTDIR="$INSTALL_DIR" install
