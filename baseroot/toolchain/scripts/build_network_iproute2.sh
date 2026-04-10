@@ -89,7 +89,7 @@ rm -fv man/man8/arpd.8
   HAVE_CAP=no \
   HAVE_HELP=no \
   HAVE_MNL=no \
-  ./configure --color never  --prefix=/usr
+  ./configure --color never  --prefix="$INSTALL_DIR/usr"
 
 sed -i 's/HAVE_CAP:=y/HAVE_CAP:=n/' config.mk
 sed -i 's/-DHAVE_LIBCAP//g' config.mk
@@ -106,12 +106,12 @@ sed -i '1i #include <linux/types.h>' include/color.h
 
   
 # Build main binaries 
-make V=1 -j"$JOBS_NUM"
+make V=1 SHARED_LIBS=n LDFLAGS="-static" PREFIX="$INSTALL_DIR/usr" -j"$JOBS_NUM"
 
 
 # Install binaries
 
-# TODO
+make V=1  PREFIX="$INSTALL_DIR/usr" SBINDIR="$INSTALL_DIR/sbin" install
 
 echo "[+] Network/iproute2 built and installed to $INSTALL_DIR."
 
