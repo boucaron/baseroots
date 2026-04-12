@@ -1,133 +1,160 @@
 ![BaseRoots Logo](assets/image_small.jpg)
+
 # BaseRoots
 
-This is a small set of scripts to build a minimalist Linux base system.
+**BaseRoots — Tiny, Immutable Linux Environment for Recovery, Testing, and Reproducible Boot**
 
-The idea is simple:
-you build a kernel, an initrd, and just enough tools to boot into a shell and do whatever you want.
+BaseRoots is a minimal, reproducible Linux bootstrap environment designed to
+reliably boot, inspect, and recover Linux systems.
 
-You can use it as a kind of shim:
-chroot into other distros, test things, experiment, break stuff.
+It builds a small, mostly statically linked initrd that provides a clean,
+deterministic runtime independent of the host system.
 
 ---
 
 ## Why
 
-25 years ago I was following freshmeat.net and building a lot of things from source.
+Recovering or inspecting Linux systems is often inconsistent:
 
-It was a different time.
-You were compiling everything, trying things, breaking your system, fixing it.
-Not always efficient, but you learned a lot.
+- rescue environments differ between distributions  
+- tools and behavior vary across systems  
+- debugging depends on the state of the host OS  
 
-I think this spirit is still there, but a bit hidden now.
-
-We have faster machines, better tools, cross-compilers, qemu…
-so it should actually be easier to experiment like this today.
-
-This project is just a small experiment I did during the Easter weekend 2026.
-
-A tiny egg.
+BaseRoots provides a clean, reproducible environment that behaves the same
+every time, regardless of the system being inspected.
 
 ---
 
 ## What it does
 
-You build what I call a *BaseRoot*:
+BaseRoots builds what we call a *BaseRoot*:
 
-* a Linux kernel
-* an initrd (ramdisk)
-* a minimal set of statically linked tools
+- a Linux kernel (provided separately)  
+- an initrd (ramdisk)  
+- a minimal set of mostly statically linked tools  
 
-That gives you a small system that boots and drops you into a shell.
+The result is a small system that boots into a shell in a controlled environment.
 
-From there, you do what you want.
+From there, you can:
+
+- inspect and mount disks  
+- recover broken systems  
+- chroot into existing installations  
+- debug system failures  
+- experiment with different userlands  
 
 ---
 
-## Example
+## Example use case
+
+A server fails to boot after an update.
+
+With BaseRoots:
+
+1. Boot the system using a BaseRoots initrd (locally or via PXE)
+2. Enter a clean, known environment
+3. Detect and mount disks safely
+4. Inspect logs, repair filesystems, or recover data
+
+The environment is always identical, regardless of the system state.
+
+---
+
+## Example build
 
 An example recipe is:
 
 `build_x86_64-musl.sh`
 
-It builds a musl-based cross toolchain, then compiles toybox and bash,
-and finally creates a minimal initrd.
+It:
+
+- builds a musl-based cross toolchain  
+- compiles toybox and bash  
+- creates a minimal initrd  
 
 At the end, you have everything except a kernel.
-Add one, boot it in qemu, and you get a shell.
 
-Most of the shell scripts are in:
+Add a kernel, boot it, and you get a shell.
+
+Most scripts are located in:
 
 `baseroot/toolchain/scripts/`
 
-There are also a few additional ones for:
+---
 
-* dosfstools
-* e2fsprogs
-* util-linux (fdisk, etc.)
-* xfsprogs
-* btrfs-progs
+## Included tooling (example)
 
-Adding those last tools already makes it a small, usable rescue system.
+BaseRoots can include a minimal but practical recovery toolkit:
 
-* iproute2
-* kmod
+**Filesystems**
+- e2fsprogs  
+- xfsprogs  
+- btrfs-progs  
+- dosfstools  
+
+**Disk utilities**
+- util-linux (fdisk, mount, blkid, etc.)  
+
+**System / kernel**
+- kmod  
+
+**Networking**
+- iproute2  
+
+This is enough to build a small, usable recovery environment.
 
 ---
 
-## Notes
+## What this is not
 
-This is not like building a full system with Linux From Scratch.
+BaseRoots is not a full Linux distribution.
 
-Everything here is cross-compiled and kept minimal.
-You build just enough to boot and get a shell, then experiment from there.
+It does not aim to replace existing systems, but to provide a minimal,
+controlled environment to interact with them.
 
-Some parts are not fully documented yet, especially around static linking.
-Building everything statically is not always straightforward.
-Some packages may need tweaks, patches, or specific flags.
+---
 
-For now, the scripts give enough examples to figure it out.
-If something fails, it’s usually part of the experiment.
+## Design principles
+
+- minimal and focused  
+- reproducible runtime  
+- mostly statically linked  
+- cross-compiled  
+- independent of host system  
+- customizable at build time  
+
+---
+
+## Background
+
+25 years ago, building systems from source and experimenting freely was common.
+
+Today we have faster machines, better tools, cross-compilers, and virtualization.
+It should be easier than ever to explore systems in a controlled way.
+
+BaseRoots is a small experiment in that direction.
 
 ---
 
 ## Current state
 
-For now:
+- architecture: x86_64  
+- libc: musl  
+- toolchain: gcc  
+- tools: toybox + additional utilities  
+- linking: mostly static  
 
-* x86_64 only
-* musl libc
-* gcc
-* toybox
-* static linking
-
-It’s very basic.
-
----
-
-## Philosophy (if any)
-
-There is no real opinion here.
-
-You can swap everything:
-
-* libc (musl, glibc, …)
-* compiler (gcc, clang, …)
-* tools (toybox, busybox, GNU, BSD…)
-* init (or no init)
-
-It’s just a set of recipes.
-
-Take it, change it, experiment.
+Status: experimental but functional.
 
 ---
 
 ## Future
 
-I want to try different combinations:
-different libc, different compilers, different userlands.
-
-Also cross-compiling for random hardware and testing in qemu.
+- PXE / network boot support  
+- extended recovery tooling (LVM, encryption, RAID)  
+- multiple build profiles (recovery, forensics, testing)  
+- additional architectures  
+- more userland combinations  
 
 ---
 
@@ -139,5 +166,3 @@ You can use it as you like:
 copy it, modify it, redistribute it, use it in other projects, with or without attribution.
 
 Basically: do whatever you want.
-
-
