@@ -1,0 +1,136 @@
+diff -ruN LVM2.2.03.39/lib/log/log.c LVM2.2.03.39.patched/lib/log/log.c
+--- LVM2.2.03.39/lib/log/log.c	2026-03-13 21:09:30.000000000 +0100
++++ LVM2.2.03.39.patched/lib/log/log.c	2026-04-14 22:06:44.319885431 +0200
+@@ -164,51 +164,12 @@
+ /*
+  * Close and reopen standard stream on file descriptor fd.
+  */
++
+ int reopen_standard_stream(FILE **stream, const char *mode)
+ {
+-	int fd, fd_copy, new_fd;
+-	const char *name;
+-	FILE *old_stream = *stream;
+-	FILE *new_stream;
+-
+-	if (old_stream == stdin) {
+-		fd = STDIN_FILENO;
+-		name = "stdin";
+-	} else if (old_stream == stdout) {
+-		fd = STDOUT_FILENO;
+-		name = "stdout";
+-	} else if (old_stream == stderr) {
+-		fd = STDERR_FILENO;
+-		name = "stderr";
+-	} else {
+-		log_error(INTERNAL_ERROR "reopen_standard_stream called on non-standard stream");
+-		return 0;
+-	}
+-
+-	if ((fd_copy = dup(fd)) < 0) {
+-		log_sys_error("dup", name);
+-		return 0;
+-	}
+-
+-	if (fclose(old_stream))
+-		log_sys_error("fclose", name);
+-
+-	if ((new_fd = dup2(fd_copy, fd)) < 0)
+-		log_sys_error("dup2", name);
+-	else if (new_fd != fd)
+-		log_error("dup2(%d, %d) returned %d", fd_copy, fd, new_fd);
+-
+-	if (close(fd_copy) < 0)
+-		log_sys_error("close", name);
+-
+-	if (!(new_stream = fdopen(fd, mode))) {
+-		log_sys_error("fdopen", name);
+-		return 0;
+-	}
+-
+-	_check_and_replace_standard_log_streams(*stream, new_stream);
+-
+-	*stream = new_stream;
++	/* In initrd environment, stdio is not managed via FILE* */
++	/* (void)stream; */
++	/* (void)mode; */
+ 	return 1;
+ }
+ 
+diff -ruN LVM2.2.03.39/tools/lvmcmdline.c LVM2.2.03.39.patched/tools/lvmcmdline.c
+--- LVM2.2.03.39/tools/lvmcmdline.c	2026-03-13 21:09:30.000000000 +0100
++++ LVM2.2.03.39.patched/tools/lvmcmdline.c	2026-04-14 22:02:46.654922436 +0200
+@@ -3421,34 +3421,54 @@
+ 	return *argc;
+ }
+ 
++
+ /* Make sure we have always valid filedescriptors 0,1,2 */
+ static int _check_standard_fds(void)
+ {
+ 	int err = is_valid_fd(STDERR_FILENO);
++	int fd;
+ 
+-	if (!is_valid_fd(STDIN_FILENO) &&
+-	    !(stdin = fopen(_PATH_DEVNULL, "r"))) {
+-		if (err)
+-			perror("stdin stream open");
+-		else
+-			printf("stdin stream open: %s\n",
+-			       strerror(errno));
+-		return 0;
++	/* stdin (fd 0) */
++	if (!is_valid_fd(STDIN_FILENO)) {
++		fd = open(_PATH_DEVNULL, O_RDONLY);
++		if (fd < 0) {
++			if (err)
++				perror("stdin open");
++			else
++				printf("stdin open: %s\n", strerror(errno));
++			return 0;
++		}
++		if (fd != STDIN_FILENO) {
++			dup2(fd, STDIN_FILENO);
++			close(fd);
++		}
+ 	}
+ 
+-	if (!is_valid_fd(STDOUT_FILENO) &&
+-	    !(stdout = fopen(_PATH_DEVNULL, "w"))) {
+-		if (err)
+-			perror("stdout stream open");
+-		/* else no stdout */
+-		return 0;
++	/* stdout (fd 1) */
++	if (!is_valid_fd(STDOUT_FILENO)) {
++		fd = open(_PATH_DEVNULL, O_WRONLY);
++		if (fd < 0) {
++			if (err)
++				perror("stdout open");
++			return 0;
++		}
++		if (fd != STDOUT_FILENO) {
++			dup2(fd, STDOUT_FILENO);
++			close(fd);
++		}
+ 	}
+ 
+-	if (!is_valid_fd(STDERR_FILENO) &&
+-	    !(stderr = fopen(_PATH_DEVNULL, "w"))) {
+-		printf("stderr stream open: %s\n",
+-		       strerror(errno));
+-		return 0;
++	/* stderr (fd 2) */
++	if (!is_valid_fd(STDERR_FILENO)) {
++		fd = open(_PATH_DEVNULL, O_WRONLY);
++		if (fd < 0) {
++			printf("stderr open: %s\n", strerror(errno));
++			return 0;
++		}
++		if (fd != STDERR_FILENO) {
++			dup2(fd, STDERR_FILENO);
++			close(fd);
++		}
+ 	}
+ 
+ 	return 1;
