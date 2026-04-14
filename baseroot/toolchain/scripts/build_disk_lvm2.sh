@@ -25,13 +25,13 @@ INSTALL_DIR="$BASE_DIR/initramfs/base"
 mkdir -p "$INSTALL_DIR/bin" "$INSTALL_DIR/sbin"
 
 # Fetch source
-if [ ! -d "$SRC_DIR" ]; then
-    wget https://sourceware.org/pub/lvm2/releases/LVM2.2.03.39.tgz
-    cp -f LVM2.2.03.39.tgz "$BASE_DIR/src/"
-    cd "$BASE_DIR/src/"
-    tar xfz LVM2.2.03.39.tgz
-    cd -
-fi
+#if [ ! -d "$SRC_DIR" ]; then
+#    wget https://sourceware.org/pub/lvm2/releases/LVM2.2.03.39.tgz
+#    cp -f LVM2.2.03.39.tgz "$BASE_DIR/src/"
+#    cd "$BASE_DIR/src/"
+#    tar xfz LVM2.2.03.39.tgz
+#    cd -
+#fi
 
 cd "$SRC_DIR"
 make distclean || true
@@ -49,18 +49,12 @@ fi
 # Patching
 FILE="tools/lvmcmdline.c"
 
-sed -i \
-  -e 's/!(stdin *= *fopen(_PATH_DEVNULL, *"r"))/!freopen(_PATH_DEVNULL, "r", stdin))/g' \
-  -e 's/!(stdout *= *fopen(_PATH_DEVNULL, *"w"))/!freopen(_PATH_DEVNULL, "w", stdout))/g' \
-  -e 's/!(stderr *= *fopen(_PATH_DEVNULL, *"w"))/!freopen(_PATH_DEVNULL, "w", stderr))/g' \
-  "$FILE"
-
 
 ./configure \
   --host="${CROSS_PREFIX%-}" \
   --prefix=/usr \
   --disable-shared \
-  --enable-static \
+  --enable-static_link \
   --disable-nls \
   --disable-readline \
   --without-systemd \
@@ -69,12 +63,16 @@ sed -i \
   CFLAGS="-O2" \
   LDFLAGS="-static -Wl,--gc-sections"
 
+# Build
+
 make V=1 -j"$JOBS_NUM"
 
-# DON'T Install everything...
+# Install
+
+make V=1 DESTDIR="$INSTALL_DIR" install
 
 # Strip all binaries
-find "$INSTALL_DIR" -type f -executable -exec $STRIP {} \; || true
+# find "$INSTALL_DIR" -type f -executable -exec $STRIP {} \; || true
 
 echo "[+] Disk/lvm2 installed"
 
