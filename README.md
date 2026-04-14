@@ -2,13 +2,15 @@
 
 # BaseRoots
 
-**BaseRoots — Tiny, Immutable Linux Environment for Recovery, Testing, and Reproducible Boot**
+**BaseRoots — Tiny, Immutable Initrd-Based Linux Environment for Recovery, Testing, and Reproducible Bootstrapping**
 
 BaseRoots is a minimal, reproducible Linux bootstrap environment designed to
 reliably boot, inspect, and recover Linux systems.
 
 It builds a small, mostly statically linked initrd that provides a clean,
 deterministic runtime independent of the host system.
+
+It is distribution-agnostic and designed to operate independently of the host system state.
 
 ---
 
@@ -27,7 +29,7 @@ every time, regardless of the system being inspected.
 
 ## What it does
 
-BaseRoots builds what we call a *BaseRoot*:
+BaseRoots builds what we call a *BaseRoot environment*:
 
 - a Linux kernel (provided separately)  
 - an initrd (ramdisk)  
@@ -47,7 +49,7 @@ From there, you can:
 
 ## Example use case
 
-A server fails to boot after an update.
+A server fails to boot after a kernel or filesystem update.
 
 With BaseRoots:
 
@@ -74,7 +76,7 @@ It:
 
 At the end, you have everything except a kernel.
 
-Add a kernel, boot it, and you get a shell.
+Add a kernel, boot it (e.g. with QEMU or real hardware), and you get a shell.
 
 Most scripts are located in:
 
@@ -90,7 +92,8 @@ BaseRoots can include a minimal but practical recovery toolkit:
 - e2fsprogs  
 - xfsprogs  
 - btrfs-progs  
-- dosfstools  
+- dosfstools
+- lvm2 (with device-mapper support)
 
 **Disk utilities**
 - util-linux (fdisk, mount, blkid, etc.)  
@@ -101,7 +104,8 @@ BaseRoots can include a minimal but practical recovery toolkit:
 **Networking**
 - iproute2  
 
-This is enough to build a small, usable recovery environment.
+This toolset covers most common Linux recovery scenarios, including systems using LVM.
+
 
 ---
 
@@ -109,8 +113,7 @@ This is enough to build a small, usable recovery environment.
 
 BaseRoots is not a full Linux distribution.
 
-It does not aim to replace existing systems, but to provide a minimal,
-controlled environment to interact with them.
+It does not aim to replace existing systems or act as a general-purpose OS, but to provide a minimal, controlled environment to interact with them.
 
 ---
 
@@ -122,6 +125,7 @@ controlled environment to interact with them.
 - cross-compiled  
 - independent of host system  
 - customizable at build time  
+- explicit control over boot and runtime behavior
 
 ---
 
@@ -129,7 +133,7 @@ controlled environment to interact with them.
 
 25 years ago, building systems from source and experimenting freely was common.
 
-Today we have faster machines, better tools, cross-compilers, and virtualization.
+Today we have faster machines, better tooling, cross-compilers, and virtualization.
 It should be easier than ever to explore systems in a controlled way.
 
 BaseRoots is a small experiment in that direction.
@@ -144,19 +148,32 @@ BaseRoots is a small experiment in that direction.
 - tools: toybox + additional utilities  
 - linking: mostly static  
 
-Status: experimental but functional.
+Status: experimental, functional, and evolving.
 
 ---
 
 ## Future
 
-- PXE / network boot support  
-- extended recovery tooling (LVM, encryption, RAID)  
-- multiple build profiles (recovery, forensics, testing)  
-- additional architectures  
-- more userland combinations  
+- PXE / network boot support (diskless recovery & provisioning)
+- extended storage support (LUKS encryption, RAID via mdadm)
+- multiple build profiles (minimal, recovery, forensics, CI/testing)
+- additional architectures (ARM, embedded targets)
+- alternative userlands (musl/glibc-based builds, toybox/busybox, different shells)
+
 
 ---
+
+## Use cases
+
+- system debugging in broken or unbootable environments
+- system recovery (bare metal or VM)
+- distribution-agnostic debugging
+- forensic analysis
+- CI/CD system testing
+- PXE-based infrastructure tooling
+
+---
+
 
 ## License
 
