@@ -25,13 +25,16 @@ INSTALL_DIR="$BASE_DIR/initramfs/base"
 mkdir -p "$INSTALL_DIR/bin" "$INSTALL_DIR/sbin"
 
 # Fetch source
-#if [ ! -d "$SRC_DIR" ]; then
-#    wget https://sourceware.org/pub/lvm2/releases/LVM2.2.03.39.tgz
-#    cp -f LVM2.2.03.39.tgz "$BASE_DIR/src/"
-#    cd "$BASE_DIR/src/"
-#    tar xfz LVM2.2.03.39.tgz
-#    cd -
-#fi
+if [ ! -d "$SRC_DIR" ]; then
+    wget https://sourceware.org/pub/lvm2/releases/LVM2.2.03.39.tgz
+    cp -f LVM2.2.03.39.tgz "$BASE_DIR/src/"
+    cd "$BASE_DIR/src/"
+    tar xfz LVM2.2.03.39.tgz
+    cd -
+    cd "$SRC_DIR"
+    patch -p1 < "$BASE_DIR/patches/musl-lvm2-initrd.patch"
+    cd -
+fi
 
 cd "$SRC_DIR"
 make distclean || true
@@ -45,9 +48,6 @@ LDFLAGS="-Wl,--gc-sections"
 if [ ! -f "configure" ]; then
    ./autogen.sh
 fi
-
-# Patching
-FILE="tools/lvmcmdline.c"
 
 
 ./configure \
