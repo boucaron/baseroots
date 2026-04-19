@@ -103,7 +103,8 @@ BaseRoots can include a minimal but practical recovery toolkit:
 - kmod  
 
 **Networking**
-- iproute2  
+- iproute2
+- curl with openssl
 
 This toolset covers most common Linux recovery scenarios, including systems using LVM.
 
