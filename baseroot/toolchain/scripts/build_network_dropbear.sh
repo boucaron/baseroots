@@ -88,19 +88,24 @@ LDFLAGS="-Wl,--gc-sections"
    LDFLAGS="-static -Wl,--gc-sections"
  
 # Build main binaries 
-make V=1 -j"$JOBS_NUM"
+make V=1 -j"$JOBS_NUM" PROGRAMS="dropbear dbclient dropbearkey dropbearconvert scp" MULTI=1
 
-"$STRIP" dropbearkey
-"$STRIP" dropbearconvert
-"$STRIP" dbclient
-"$STRIP" dropbear
+#"$STRIP" dropbearkey
+#"$STRIP" dropbearconvert
+#"$STRIP" dbclient
+#"$STRIP" dropbear
+"$STRIP" dropbearmulti
+#"$STRIP" scp
 
 # Install binaries
 #make V=1  DESTDIR="$INSTALL_DIR"  -n install
-cp -f dropbearkey $INSTALL_DIR/usr/bin
-cp -f dropbearconvert $INSTALL_DIR/usr/bin
-cp -f dbclient $INSTALL_DIR/usr/bin
-cp -f dropbear $INSTALL_DIR/usr/sbin
+#cp -f dropbearkey $INSTALL_DIR/usr/bin
+#cp -f dropbearconvert $INSTALL_DIR/usr/bin
+#cp -f dbclient $INSTALL_DIR/usr/bin
+#cp -f scp $INSTALL_DIR/usr/bin
+#cp -f dropbear $INSTALL_DIR/usr/sbin
+cp -f dropbearmulti $INSTALL_DIR/usr/sbin
+
 
 echo "[+] Network/dropbear built and installed to $INSTALL_DIR."
 
