@@ -96,7 +96,7 @@ BaseRoots can include a minimal but practical recovery toolkit:
 - lvm2 (with device-mapper support)
 
 **Disk utilities**
-- util-linux (fdisk, mount, blkid, etc.)
+- util-linux (fdisk, mount, blkid, agetty, etc.)
 - mdadm (Software RAID)  
 
 **System / kernel**
@@ -105,6 +105,7 @@ BaseRoots can include a minimal but practical recovery toolkit:
 **Networking**
 - iproute2
 - curl with openssl
+- dropbear (ssh server/client/scp)
 
 This toolset covers most common Linux recovery scenarios, including systems using LVM.
 
