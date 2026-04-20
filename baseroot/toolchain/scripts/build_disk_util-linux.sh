@@ -75,6 +75,7 @@ cp -f fdisk.static $INSTALL_DIR/sbin/fdisk
 cp -f umount.static $INSTALL_DIR/bin/umount
 cp -f losetup.static $INSTALL_DIR/bin/losetup
 cp -f mount.static $INSTALL_DIR/bin/mount
+cp -f agetty $INSTALL_DIR/sbin/agetty
 
 # Strip all binaries
 find "$INSTALL_DIR" -type f -executable -exec $STRIP {} \; || true
