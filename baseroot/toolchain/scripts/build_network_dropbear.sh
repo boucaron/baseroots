@@ -83,6 +83,11 @@ LDFLAGS="-Wl,--gc-sections"
    --prefix=/usr \
    --with-openssl="$CROSS_DIR/$INSTALL_CROSS_PREFIX/usr" \
    --disable-shared \
+   --disable-loginfunc \
+   --disable-utmp \
+   --disable-utmpx \
+   --disable-wtmp \
+   --disable-wtmpx \
    CC="${CROSS_PREFIX}cc -static" \
    CFLAGS="-O2" \
    LDFLAGS="-static -Wl,--gc-sections"
