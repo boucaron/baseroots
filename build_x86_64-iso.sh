@@ -1,3 +1,3 @@
 #!/bin/bash
 
-grub2-mkrescue -o custom.iso iso
+grub2-mkrescue -o baseroot.iso iso
