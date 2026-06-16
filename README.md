@@ -107,6 +107,9 @@ BaseRoots can include a minimal but practical recovery toolkit:
 - curl with openssl
 - dropbear (ssh server/client/scp)
 
+**Editor**
+- joe
+
 This toolset covers most common Linux recovery scenarios, including systems using LVM.
 
 
