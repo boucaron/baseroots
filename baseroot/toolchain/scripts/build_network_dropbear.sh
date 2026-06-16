@@ -25,7 +25,7 @@ if [ -z "$CROSS_PREFIX" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SRC_DIR="$BASE_DIR/src/dropbear-2025.89"
+SRC_DIR="$BASE_DIR/src/dropbear-2026.91"
 BUILD_DIR="$BASE_DIR/build/dropbear"
 INSTALL_DIR="$BASE_DIR/initramfs/base/"
 
@@ -42,10 +42,10 @@ LDFLAGS="-static"
 
 # Clone btrfs-progs if missing
 if [ ! -d "$SRC_DIR" ]; then
-    wget https://dropbear.nl/mirror/releases/dropbear-2025.89.tar.bz2
-    cp -f dropbear-2025.89.tar.bz2 "$BASE_DIR/src" 
+    wget https://dropbear.nl/mirror/releases/dropbear-2026.91.tar.bz2
+    cp -f dropbear-2026.91.tar.bz2 "$BASE_DIR/src" 
     cd "$BASE_DIR/src"
-    tar xfj dropbear-2025.89.tar.bz2
+    tar xfj dropbear-2026.91.tar.bz2
     cd -
 fi
 
