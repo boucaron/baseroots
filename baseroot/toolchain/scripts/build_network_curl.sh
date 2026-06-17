@@ -25,7 +25,7 @@ if [ -z "$CROSS_PREFIX" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SRC_DIR="$BASE_DIR/src/curl-8.19.0"
+SRC_DIR="$BASE_DIR/src/curl-8.20.0"
 BUILD_DIR="$BASE_DIR/build/curl"
 INSTALL_DIR="$BASE_DIR/initramfs/base/"
 
@@ -42,10 +42,10 @@ LDFLAGS="-static"
 
 # Clone btrfs-progs if missing
 if [ ! -d "$SRC_DIR" ]; then
-    wget  https://curl.se/download/curl-8.19.0.tar.gz
-    cp -f curl-8.19.0.tar.gz "$BASE_DIR/src" 
+    wget  https://curl.se/download/curl-8.20.0.tar.gz
+    cp -f curl-8.20.0.tar.gz "$BASE_DIR/src" 
     cd "$BASE_DIR/src"
-    tar xfz curl-8.19.0.tar.gz
+    tar xfz curl-8.20.0.tar.gz
     cd -
 fi
 
