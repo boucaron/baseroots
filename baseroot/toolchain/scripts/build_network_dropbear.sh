@@ -111,6 +111,17 @@ make V=1 -j"$JOBS_NUM" PROGRAMS="dropbear dbclient dropbearkey dropbearconvert s
 #cp -f dropbear $INSTALL_DIR/usr/sbin
 cp -f dropbearmulti $INSTALL_DIR/usr/sbin
 
+# Client
+ln -sf /usr/sbin/dropbearmulti "$INSTALL_DIR/usr/bin/dbclient"
+ln -sf /usr/sbin/dropbearmulti "$INSTALL_DIR/usr/bin/ssh"
+
+# SCP support
+ln -sf /usr/sbin/dropbearmulti "$INSTALL_DIR/usr/bin/scp"
+
+# Key utilities
+ln -sf /usr/sbin/dropbearmulti "$INSTALL_DIR/usr/bin/dropbearkey"
+ln -sf /usr/sbin/dropbearmulti "$INSTALL_DIR/usr/bin/dropbearconvert"
+
 
 echo "[+] Network/dropbear built and installed to $INSTALL_DIR."
 
