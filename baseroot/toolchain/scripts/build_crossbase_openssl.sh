@@ -21,17 +21,17 @@ CROSS_PREFIX="$1"
 [ -z "$CROSS_PREFIX" ] && { echo "Usage: $0 <cross-prefix>"; exit 1; }
 
 BASE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-SRC_DIR="$BASE_DIR/src/openssl-3.6.2"
+SRC_DIR="$BASE_DIR/src/openssl-3.6.3"
 INSTALL_DIR="$BASE_DIR/initramfs/base"
 
 mkdir -p "$INSTALL_DIR/bin" "$INSTALL_DIR/sbin"
 
 # Fetch source
 if [ ! -d "$SRC_DIR" ]; then
-    wget https://github.com/openssl/openssl/releases/download/openssl-3.6.2/openssl-3.6.2.tar.gz
-    mv openssl-3.6.2.tar.gz "$BASE_DIR/src"
+    wget https://github.com/openssl/openssl/releases/download/openssl-3.6.3/openssl-3.6.3.tar.gz
+    mv openssl-3.6.3.tar.gz "$BASE_DIR/src"
     cd "$BASE_DIR/src"
-    tar xfz openssl-3.6.2.tar.gz
+    tar xfz openssl-3.6.3.tar.gz
     cd -
 fi
 
