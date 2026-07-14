@@ -102,9 +102,232 @@ LDFLAGS="-static"
 # Build main binaries 
 make V=1 -j"$JOBS_NUM"
 
+cd src
+
+x86_64-linux-musl-cc \
+    -static -O2 -std=gnu11 \
+    -Waggregate-return -Wall -Wcast-align -Wconversion \
+    -Wdisabled-optimization -Wextra -Wmissing-declarations \
+    -Wmissing-format-attribute -Wmissing-noreturn \
+    -Wmissing-prototypes -Wpointer-arith -Wredundant-decls \
+    -Wshadow -Wstrict-prototypes -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o loadkeys \
+    loadkeys.o \
+    libkeymap/.libs/libkeymap.a \
+    libkbdfile/.libs/libkbdfile.a \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o mapscrn \
+    mapscrn.o \
+    libkfont/.libs/libkfont.a \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o loadunimap \
+    loadunimap.o \
+    libkfont/.libs/libkfont.a \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o showkey \
+    showkey.o \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o dumpkeys \
+    dumpkeys.o \
+    libkeymap/.libs/libkeymap.a \
+    libkbdfile/.libs/libkbdfile.a \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o setleds \
+    setleds.o \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o setfont \
+    setfont.o \
+    libkfont/.libs/libkfont.a \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc \
+    -static \
+    -O2 -O2 \
+    -std=gnu11 \
+    -Waggregate-return \
+    -Wall \
+    -Wcast-align \
+    -Wconversion \
+    -Wdisabled-optimization \
+    -Wextra \
+    -Wmissing-declarations \
+    -Wmissing-format-attribute \
+    -Wmissing-noreturn \
+    -Wmissing-prototypes \
+    -Wpointer-arith \
+    -Wredundant-decls \
+    -Wshadow \
+    -Wstrict-prototypes \
+    -Wwrite-strings \
+    -Wl,--gc-sections \
+    -o showconsolefont \
+    showconsolefont.o \
+    libkfont/.libs/libkfont.a \
+    libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o showconsolefont showconsolefont.o libkfont/.libs/libkfont.a libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o setmetamode setmetamode.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o kbd_mode kbd_mode.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o psfxtable psfxtable.o libkfont/.libs/libkfont.a libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o kbdrate kbdrate.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o fgconsole fgconsole.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o chvt chvt.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o deallocvt deallocvt.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o openvt openvt.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o kbdinfo kbdinfo.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o setvtrgb setvtrgb.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o getkeycodes getkeycodes.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o getkeycodes getkeycodes.o libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o resizecons resizecons.o libkbdfile/.libs/libkbdfile.a libcommon/libcommon.a
+
+x86_64-linux-musl-cc -static -O2 -O2 -std=gnu11 -Waggregate-return -Wall -Wcast-align -Wconversion -Wdisabled-optimization -Wextra -Wmissing-declarations -Wmissing-format-attribute -Wmissing-noreturn -Wmissing-prototypes -Wpointer-arith -Wredundant-decls -Wshadow -Wstrict-prototypes -Wwrite-strings -Wl,--gc-sections -o setkeycodes setkeycodes.o libcommon/libcommon.a
+
+strip loadkeys mapscrn loadunimap showkey dumpkeys setleds setfont showconsolefont setmetamode kbd_mode psfxtable kbdrate fgconsole chvt deallocvt openvt kbdinfo setvtrgb getkeycodes resizecons setkeycodes
+
+cd -
 
 # Install binaries
-make V=1  DESTDIR="$INSTALL_DIR"  -n install
+make V=1  DESTDIR="$INSTALL_DIR"  install
 
 
 echo "[+] Base/kbd built and installed to $INSTALL_DIR."
