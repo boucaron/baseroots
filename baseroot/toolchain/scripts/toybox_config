@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # ToyBox version: KCONFIG_VERSION
-# Sun Apr  5 17:18:07 2026
+# Tue Jul 14 22:12:06 2026
 #
 # CONFIG_IS_ANDROID is not set
 # CONFIG_IS_FDPIC is not set
@@ -319,7 +319,7 @@ CONFIG_WGET=y
 # Linux Standard Base commands
 #
 CONFIG_DMESG=y
-# CONFIG_GZIP is not set
+CONFIG_GZIP=y
 CONFIG_GUNZIP=y
 CONFIG_ZCAT=y
 CONFIG_HOSTNAME=y
