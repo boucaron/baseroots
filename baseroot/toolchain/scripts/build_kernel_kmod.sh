@@ -28,7 +28,7 @@ fi
 
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SRC_DIR="$BASE_DIR/src/kmod-34.2"
-BUILD_DIR="$BASE_DIR/build/btrfs-progs"
+BUILD_DIR="$BASE_DIR/build/kmod-34.2"
 INSTALL_DIR="$BASE_DIR/initramfs/base/"
 
 # Ensure directories

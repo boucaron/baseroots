@@ -104,7 +104,7 @@ make V=1 -j"$JOBS_NUM"
 
 
 # Install binaries
-#make V=1  DESTDIR="$INSTALL_DIR"  -n install
+make V=1  DESTDIR="$INSTALL_DIR"  -n install
 
 
 echo "[+] Base/kbd built and installed to $INSTALL_DIR."
