@@ -29,8 +29,13 @@ INSTALL_DIR="$BASE_DIR/initramfs/base"
 
 # Check source exists
 if [ ! -d "$SRC_DIR" ]; then
-    echo "[!] Bash source not found in $SRC_DIR"
-    exit 1
+    # echo "[!] Bash source not found in $SRC_DIR"
+    # exit 1
+    wget https://ftp.gnu.org/gnu/bash/bash-5.3.tar.gz
+    cp -f bash-5.3.tar.gz "$BASE_DIR/src" 
+    cd "$BASE_DIR/src"
+    tar xfz bash-5.3.tar.gz
+    cd -
 fi
 
 mkdir -p "$BUILD_DIR" "$INSTALL_DIR/bin"
