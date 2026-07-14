@@ -88,6 +88,10 @@ Most scripts are located in:
 
 BaseRoots can include a minimal but practical recovery toolkit:
 
+**Core**
+- toybox (most of core commands)
+- kbd 
+
 **Filesystems**
 - e2fsprogs  
 - xfsprogs  
@@ -100,7 +104,8 @@ BaseRoots can include a minimal but practical recovery toolkit:
 - mdadm (Software RAID)  
 
 **System / kernel**
-- kmod  
+- kmod
+
 
 **Networking**
 - iproute2
