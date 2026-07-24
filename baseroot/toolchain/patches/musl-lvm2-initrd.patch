@@ -1,11 +1,8 @@
-diff -ruN LVM2.2.03.39/lib/log/log.c LVM2.2.03.39.patched/lib/log/log.c
---- LVM2.2.03.39/lib/log/log.c	2026-03-13 21:09:30.000000000 +0100
-+++ LVM2.2.03.39.patched/lib/log/log.c	2026-04-14 22:06:44.319885431 +0200
-@@ -164,51 +164,12 @@
- /*
-  * Close and reopen standard stream on file descriptor fd.
+diff -ruN LVM2.2.03.41/lib/log/log.c LVM2.2.03.41.patched/lib/log/log.c
+--- LVM2.2.03.41/lib/log/log.c	2026-05-15 13:23:37.000000000 +0200
++++ LVM2.2.03.41.patched/lib/log/log.c	2026-07-24 21:10:36.391109995 +0200
+@@ -166,49 +166,9 @@
   */
-+
  int reopen_standard_stream(FILE **stream, const char *mode)
  {
 -	int fd, fd_copy, new_fd;
@@ -57,20 +54,14 @@ diff -ruN LVM2.2.03.39/lib/log/log.c LVM2.2.03.39.patched/lib/log/log.c
  	return 1;
  }
  
-diff -ruN LVM2.2.03.39/tools/lvmcmdline.c LVM2.2.03.39.patched/tools/lvmcmdline.c
---- LVM2.2.03.39/tools/lvmcmdline.c	2026-03-13 21:09:30.000000000 +0100
-+++ LVM2.2.03.39.patched/tools/lvmcmdline.c	2026-04-14 22:02:46.654922436 +0200
-@@ -3421,34 +3421,54 @@
- 	return *argc;
- }
- 
-+
- /* Make sure we have always valid filedescriptors 0,1,2 */
+diff -ruN LVM2.2.03.41/tools/lvmcmdline.c LVM2.2.03.41.patched/tools/lvmcmdline.c
+--- LVM2.2.03.41/tools/lvmcmdline.c	2026-05-15 13:23:37.000000000 +0200
++++ LVM2.2.03.41.patched/tools/lvmcmdline.c	2026-07-24 21:10:24.160041579 +0200
+@@ -3396,30 +3396,49 @@
  static int _check_standard_fds(void)
  {
  	int err = is_valid_fd(STDERR_FILENO);
-+	int fd;
- 
+-
 -	if (!is_valid_fd(STDIN_FILENO) &&
 -	    !(stdin = fopen(_PATH_DEVNULL, "r"))) {
 -		if (err)
@@ -79,14 +70,16 @@ diff -ruN LVM2.2.03.39/tools/lvmcmdline.c LVM2.2.03.39.patched/tools/lvmcmdline.
 -			printf("stdin stream open: %s\n",
 -			       strerror(errno));
 -		return 0;
++	int fd;
++ 
 +	/* stdin (fd 0) */
 +	if (!is_valid_fd(STDIN_FILENO)) {
 +		fd = open(_PATH_DEVNULL, O_RDONLY);
 +		if (fd < 0) {
 +			if (err)
-+				perror("stdin open");
++				perror("stdin stream open");
 +			else
-+				printf("stdin open: %s\n", strerror(errno));
++				printf("stdin stream open: %s\n", strerror(errno));
 +			return 0;
 +		}
 +		if (fd != STDIN_FILENO) {
@@ -106,7 +99,7 @@ diff -ruN LVM2.2.03.39/tools/lvmcmdline.c LVM2.2.03.39.patched/tools/lvmcmdline.
 +		fd = open(_PATH_DEVNULL, O_WRONLY);
 +		if (fd < 0) {
 +			if (err)
-+				perror("stdout open");
++				perror("stdout stream open");
 +			return 0;
 +		}
 +		if (fd != STDOUT_FILENO) {
@@ -124,7 +117,7 @@ diff -ruN LVM2.2.03.39/tools/lvmcmdline.c LVM2.2.03.39.patched/tools/lvmcmdline.
 +	if (!is_valid_fd(STDERR_FILENO)) {
 +		fd = open(_PATH_DEVNULL, O_WRONLY);
 +		if (fd < 0) {
-+			printf("stderr open: %s\n", strerror(errno));
++			printf("stderr stream open: %s\n", strerror(errno));
 +			return 0;
 +		}
 +		if (fd != STDERR_FILENO) {

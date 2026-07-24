@@ -19,17 +19,17 @@ CROSS_PREFIX="$1"
 [ -z "$CROSS_PREFIX" ] && { echo "Usage: $0 <cross-prefix>"; exit 1; }
 
 BASE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-SRC_DIR="$BASE_DIR/src/LVM2.2.03.39"
+SRC_DIR="$BASE_DIR/src/LVM2.2.03.41"
 INSTALL_DIR="$BASE_DIR/initramfs/base"
 
 mkdir -p "$INSTALL_DIR/bin" "$INSTALL_DIR/sbin"
 
 # Fetch source
 if [ ! -d "$SRC_DIR" ]; then
-    wget https://sourceware.org/pub/lvm2/releases/LVM2.2.03.39.tgz
-    cp -f LVM2.2.03.39.tgz "$BASE_DIR/src/"
+    wget https://sourceware.org/pub/lvm2/releases/LVM2.2.03.41.tgz
+    cp -f LVM2.2.03.41.tgz "$BASE_DIR/src/"
     cd "$BASE_DIR/src/"
-    tar xfz LVM2.2.03.39.tgz
+    tar xfz LVM2.2.03.41.tgz
     cd -
     cd "$SRC_DIR"
     patch -p1 < "$BASE_DIR/patches/musl-lvm2-initrd.patch"
