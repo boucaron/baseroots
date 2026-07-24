@@ -27,7 +27,7 @@ if [ -z "$CROSS_PREFIX" ]; then
 fi
 
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SRC_DIR="$BASE_DIR/src/iproute2-6.19.0"
+SRC_DIR="$BASE_DIR/src/iproute2-7.1.0"
 BUILD_DIR="$BASE_DIR/build/btrfs-progs"
 INSTALL_DIR="$BASE_DIR/initramfs/base/"
 
@@ -44,10 +44,10 @@ LDFLAGS="-static"
 
 # Clone btrfs-progs if missing
 if [ ! -d "$SRC_DIR" ]; then
-    wget  https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/snapshot/iproute2-6.19.0.tar.gz
-    cp -f iproute2-6.19.0.tar.gz "$BASE_DIR/src" 
+    wget  https://git.kernel.org/pub/scm/network/iproute2/iproute2.git/snapshot/iproute2-7.1.0.tar.gz
+    cp -f iproute2-7.1.0.tar.gz "$BASE_DIR/src" 
     cd "$BASE_DIR/src"
-    tar xfz iproute2-6.19.0.tar.gz
+    tar xfz iproute2-7.1.0.tar.gz
     cd -
 fi
 
