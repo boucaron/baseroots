@@ -55,3 +55,10 @@ make -j"$JOBS_NUM"
 make install
 
 echo "[+] Done: $TARGET_NAME"
+
+echo "===> Don't forget to update the kernel headers for util-linux and other stuff"
+echo "Next stage: build_kernel_headers.sh"
+echo "===> Don't forget also to copy libc core shared libraries too"
+echo "After stage: build_libc_core.sh"
+
+
