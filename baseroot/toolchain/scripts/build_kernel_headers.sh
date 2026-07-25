@@ -42,7 +42,7 @@ mkdir -p "$KERNEL_HEADERS_TMP"
 
 
 # Find cross compiler sysroot
-CROSS_CC="${TARGET_NAME}musl-gcc"
+CROSS_CC="${TARGET_NAME}gcc"
 
 if ! command -v "$CROSS_CC" >/dev/null 2>&1; then
     echo "Cross compiler not found: $CROSS_CC"
@@ -72,7 +72,7 @@ fi
 
 
 # Backup existing headers
-SYSROOT_INCLUDE="$CROSS_COMPILER_SYSROOT/usr/include"
+SYSROOT_INCLUDE="$CROSS_COMPILER_SYSROOT/include"
 
 BACKUP="$SYSROOT_INCLUDE/kernel-headers-backup-$(date +%Y%m%d-%H%M%S)"
 
