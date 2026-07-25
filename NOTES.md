@@ -48,6 +48,30 @@ Hello BaseRoots
 
 ---
 
+## Build kernel headers
+
+Musl cross compilation is using a relatively 'old' linux kernel and its headers are not really compatible with recent version of filesystem utils.
+In general you want to take a more recent kernel.
+
+
+```bash
+./baseroot/toolchain/scripts/build_kernel_headers.sh x86_64-linux-musl-
+```
+
+
+---
+
+## Install libc core shared libraries
+
+Even if most of the tools are statically compiled, a few tools needs a shared libc (kmod for instance)
+```bash
+./baseroot/toolchain/scripts/build_libc_core.sh x86_64-linux-musl-
+```
+
+
+
+---
+
 ## Build toybox
 
 ```bash
