@@ -99,8 +99,8 @@ BLKID_CFLAGS="-I$INSTALL_INCLUDE"
     
 
 # Build main binaries (mkfs.xfs, xfs_repair, xfs_info, etc.)
-make V=1 -j"$JOBS_NUM"
-
+# make V=1 -j"$JOBS_NUM"
+make V=1
 
 # Install binaries
 
@@ -126,7 +126,7 @@ cp -f mkfs.btrfs \
    "$INSTALL_DIR"/usr/bin
 
 cd  "$INSTALL_DIR"/usr/bin
-ln -s btrfs btrfsck
+ln -sf btrfs btrfsck
 cd -
 
 echo "[+] Disk/btrfs-progs built and installed to $INSTALL_DIR."
