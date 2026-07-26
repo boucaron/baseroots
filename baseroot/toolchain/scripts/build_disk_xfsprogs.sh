@@ -75,7 +75,9 @@ fi
     LDFLAGS="$LDFLAGS"
 
 # Build main binaries (mkfs.xfs, xfs_repair, xfs_info, etc.)
-make -j"$JOBS_NUM"
+make V=1 -j"$JOBS_NUM"
+
+echo "Static linking"
 
 # I hate libtool...
 cd mkfs
@@ -84,49 +86,56 @@ STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.lib
 $CC -static -static-libgcc -Wl,--gc-sections proto.o xfs_mkfs.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o mkfs.xfs
 $STRIP mkfs.xfs
 cd -
+echo "mkfs.xfs"
 
 cd growfs
 STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
 $CC -static -static-libgcc -Wl,--gc-sections xfs_growfs.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_growfs
 $STRIP xfs_growfs
 cd -
+echo "xfs_growfs"
 
 cd fsr
 STATIC_LIBS="../libhandle/.libs/libhandle.a ../libfrog/.libs/libfrog.a"
 $CC -static -static-libgcc -Wl,--gc-sections xfs_fsr.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_fsr
 $STRIP xfs_fsr
 cd -
+echo "xfs_fsr"
 
 cd copy
 STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a ../libxlog/.libs/libxlog.a"
 $CC -static -static-libgcc -Wl,--gc-sections xfs_copy.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_copy
 $STRIP xfs_copy
 cd -
-
+echo "xfs_copy"
 
 cd spaceman
 STATIC_LIBS="../libhandle/.libs/libhandle.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
 $CC -static -static-libgcc -Wl,--gc-sections file.o health.o info.o init.o prealloc.o trim.o freesp.o $STATIC_LIBS -o xfs_spaceman
 $STRIP xfs_spaceman
 cd -
+echo "xfs_spaceman"
 
 cd quota
 STATIC_LIBS="../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
 $CC -static -static-libgcc -Wl,--gc-sections init.o util.o edit.o free.o linux.o path.o project.o quot.o quota.o report.o state.o $STATIC_LIBS -o xfs_quota
 $STRIP xfs_quota
 cd -
+echo "xfs_quota"
 
 cd logprint
 STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a ../libxlog/.libs/libxlog.a"
 $CC -static -static-libgcc -Wl,--gc-sections logprint.o log_copy.o log_dump.o log_misc.o log_print_all.o log_print_trans.o log_redo.o $STATIC_LIBS -lrt -lblkid -luuid -linih -lurcu -lpthread -o xfs_logprint
 $STRIP xfs_logprint
 cd -
+echo "xfs_logprint"
 
 cd io
 STATIC_LIBS="../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a ../libhandle/.libs/libhandle.a"
-$CC -static -static-libgcc -Wl,--gc-sections aginfo.o attr.o bmap.o bulkstat.o cowextsize.o crc32cselftest.o encrypt.o exchrange.o fadvise.o fiemap.o file.o freeze.o fsproperties.o fsuuid.o fsync.o getrusage.o imap.o init.o inject.o label.o link.o madvise.o mincore.o mmap.o open.o parent.o pread.o prealloc.o pwrite.o readdir.o reflink.o resblks.o scrub.o seek.o sendfile.o shutdown.o stat.o swapext.o sync.o sync_file_range.o truncate.o utimes.o copy_file_range.o cachestat.o fsmap.o $STATIC_LIBS  -luuid -lpthread -o xfs_io
+$CC -static -static-libgcc -Wl,--gc-sections aginfo.o attr.o bmap.o bulkstat.o cowextsize.o crc32cselftest.o encrypt.o exchrange.o fadvise.o fiemap.o file.o freeze.o fsproperties.o fsuuid.o fsync.o getrusage.o healthmon.o imap.o init.o inject.o label.o link.o madvise.o mincore.o mmap.o open.o parent.o pread.o prealloc.o pwrite.o readdir.o reflink.o resblks.o scrub.o seek.o sendfile.o shutdown.o stat.o swapext.o sync.o sync_file_range.o truncate.o utimes.o verify_media.o copy_file_range.o cachestat.o fsmap.o listmount.o $STATIC_LIBS  -luuid -lpthread -o xfs_io
 $STRIP xfs_io
 cd -
+echo "xfs_io"
 
 cd repair
 STATIC_LIBS="../libxfs/.libs/libxfs.a ../libxlog/.libs/libxlog.a ../libxcmd/.libs/libxcmd.a ../libfrog/.libs/libfrog.a"
